@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Transacao } from "../types/Transacao";
 
 interface CartaoTransacaoProps {
@@ -9,11 +10,21 @@ export function CartaoTransacao({
   transacao,
   destaque = false,
 }: CartaoTransacaoProps) {
+  const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
+
   return (
     <article>
       <h2>{transacao.nome}</h2>
 
-      <p>{transacao.descricao}</p>
+      <button
+        onClick={() => setMostrarDetalhes(!mostrarDetalhes)}
+      >
+        {mostrarDetalhes ? "Ocultar Detalhes" : "Mostrar Detalhes"}
+      </button>
+
+      {mostrarDetalhes && (
+        <p>{transacao.descricao}</p>
+      )}
 
       <p>
         <strong>Valor:</strong> R$ {transacao.valor}
