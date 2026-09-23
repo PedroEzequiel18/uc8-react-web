@@ -1,9 +1,22 @@
+import { useState } from "react";
 import { Cabecalho } from "./componentes/Cabecalho";
 import { Rodape } from "./componentes/Rodape";
 import { CartaoTransacao } from "./componentes/CartaoTransacao";
+import { FormularioTransacao } from "./componentes/FormularioTransacao";
+import type { Transacao } from "./types/Transacao";
 
 function App() {
-  const transacao1 = {
+  const [transacaoFormulario, setTransacaoFormulario] =
+    useState<Transacao>({
+      id: 3,
+      nome: "",
+      descricao: "",
+      valor: 0,
+      id_categoria: 1,
+      data: "22/09/2026",
+    });
+
+  const transacao1: Transacao = {
     id: 1,
     nome: "Salário",
     descricao: "Pagamento mensal",
@@ -12,7 +25,7 @@ function App() {
     data: "18/09/2026",
   };
 
-  const transacao2 = {
+  const transacao2: Transacao = {
     id: 2,
     nome: "Internet",
     descricao: "Conta mensal",
@@ -25,6 +38,10 @@ function App() {
     <>
       <Cabecalho />
 
+      <FormularioTransacao
+        setTransacaoFormulario={setTransacaoFormulario}
+      />
+
       <CartaoTransacao
         transacao={transacao1}
         destaque
@@ -32,6 +49,10 @@ function App() {
 
       <CartaoTransacao
         transacao={transacao2}
+      />
+
+      <CartaoTransacao
+        transacao={transacaoFormulario}
       />
 
       <Rodape />

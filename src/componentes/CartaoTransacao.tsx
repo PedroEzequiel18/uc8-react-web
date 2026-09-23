@@ -19,7 +19,9 @@ export function CartaoTransacao({
       <button
         onClick={() => setMostrarDetalhes(!mostrarDetalhes)}
       >
-        {mostrarDetalhes ? "Ocultar Detalhes" : "Mostrar Detalhes"}
+        {mostrarDetalhes
+          ? "Ocultar Detalhes"
+          : "Mostrar Detalhes"}
       </button>
 
       {mostrarDetalhes && (
