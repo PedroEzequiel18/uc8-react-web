@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Cabecalho } from "./componentes/Cabecalho";
 import { Rodape } from "./componentes/Rodape";
-import { CartaoTransacao } from "./componentes/CartaoTransacao";
 import { FormularioTransacao } from "./componentes/FormularioTransacao";
+import { ListaTransacoes } from "./componentes/ListaTransacoes";
+import { buscarTransacoes } from "./services/TransacaoService";
 import type { Transacao } from "./types/Transacao";
 
 function App() {
   const [transacaoFormulario, setTransacaoFormulario] =
     useState<Transacao>({
-      id: 3,
+      id: 999,
       nome: "",
       descricao: "",
       valor: 0,
@@ -16,23 +17,19 @@ function App() {
       data: "22/09/2026",
     });
 
-  const transacao1: Transacao = {
-    id: 1,
-    nome: "Salário",
-    descricao: "Pagamento mensal",
-    valor: 3500,
-    id_categoria: 1,
-    data: "18/09/2026",
-  };
+  const [transacoes, setTransacoes] = useState<Transacao[]>([]);
+  const [carregando, setCarregando] = useState(true);
 
-  const transacao2: Transacao = {
-    id: 2,
-    nome: "Internet",
-    descricao: "Conta mensal",
-    valor: 120,
-    id_categoria: 2,
-    data: "18/09/2026",
-  };
+  useEffect(() => {
+    buscarTransacoes().then((dados) => {
+      setTransacoes(dados);
+      setCarregando(false);
+    });
+  }, []);
+
+  if (carregando) {
+    return <p>Carregando transações...</p>;
+  }
 
   return (
     <>
@@ -42,17 +39,8 @@ function App() {
         setTransacaoFormulario={setTransacaoFormulario}
       />
 
-      <CartaoTransacao
-        transacao={transacao1}
-        destaque
-      />
-
-      <CartaoTransacao
-        transacao={transacao2}
-      />
-
-      <CartaoTransacao
-        transacao={transacaoFormulario}
+      <ListaTransacoes
+        transacoes={[...transacoes, transacaoFormulario]}
       />
 
       <Rodape />
